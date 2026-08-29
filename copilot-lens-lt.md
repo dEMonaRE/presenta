@@ -171,8 +171,8 @@ output tokens                              →  ayrı kalem
 
 İndirim her katmanda seyreltir. Gerçek etkiyi ölçmek için:
 
-- **rtk-ai** — bash çıktısı kısaltma kütüphanesi: [github.com/rtk-ai/rtk](https://github.com/rtk-ai/rtk)
-- **copilot-lens** — gerçek input/output token etkisini ölçer
+- **rtk-ai**: bash çıktısı kısaltma kütüphanesi, [github.com/rtk-ai/rtk](https://github.com/rtk-ai/rtk)
+- **copilot-lens**: gerçek input/output token etkisini ölçer
 
 İkisi birlikte: *kısaltma miktarı* + *toplam token etkisi* = uçtan uca görünürlük.
 
