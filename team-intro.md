@@ -39,7 +39,7 @@ Soru: Bu ay kaç premium request harcadık?
 - Bireysel hesap → ay sonu özeti, anlık veri yok
 - VSCode verbose log (0.60+) → prompt_tokens artık yazılmıyor
 
-Sonuç: Geliştirici kendi prompt'larının kaç token yediğini bilmiyor. Kota şubat ortasında bitiyor.
+Sonuç: Geliştirici kendi prompt'larının kaç token yediğini bilmiyor. Kota ayın 2. haftasında bitiyor.
 
 ---
 
@@ -129,22 +129,14 @@ copilot-lens              # auto-detect IDE
 
 | Komut | Ne yapar |
 |---|---|
-| `copilot-lens` | Tek seferde konsol raporu |
+| `copilot-lens` | Tek seferde konsol raporu *(varsayılan)* |
 | `copilot-lens watch` | Canlı izleme (RTK stili) |
 | `copilot-lens gain --history` | Günlük kullanım trendi |
 | `copilot-lens discover` | En pahalı prompt kalıplarını bulur |
 | `copilot-lens snapshot` | Bugünün toplamını diske yazar |
-| `copilot-lens trend --period=weekly` | ASCII grafik |
-| `copilot-lens export json` | JSON export |
+| `copilot-lens trend --period=weekly` | ASCII grafik (snapshot'lardan) |
+| `copilot-lens export json` | Ham veriyi JSON olarak dışa aktarır |
 | `copilot-lens report` | HTML report (dark mode) |
-
----
-
-## Gerçek terminal çıktısı
-
-![bg right:50% contain](./copilot-lens-hero.png)
-
-Ana ekran: model dağılımı, günlük trend, top 10 expensive requests.
 
 ---
 
@@ -162,6 +154,27 @@ Durum: Platform ekibi açık uçlu bir prompt attı.
 Çözüm: Agent mode yerine edit mode, tek sorgu yeterli oldu. Aynı iş 4 request'e düştü.
 
 Aylık tasarruf ~240 USD.
+
+---
+
+## How Savings Work
+
+**RTK** agent'ın okuduğu bash çıktısını **%90'a kadar** kısar.
+Bu, faturanızın %90 azalması **değil**.
+
+Bash çıktısı input token'ların sadece bir katmanı:
+
+```
+prompt + system + history + bash output  →  input tokens
+output tokens                              →  ayrı kalem
+```
+
+İndirim her katmanda seyreltir. Gerçek etkiyi ölçmek için:
+
+- **rtk-ai** — bash çıktısı kısaltma kütüphanesi: [github.com/rtk-ai/rtk](https://github.com/rtk-ai/rtk)
+- **copilot-lens** — gerçek input/output token etkisini ölçer
+
+İkisi birlikte: *kısaltma miktarı* + *toplam token etkisi* = uçtan uca görünürlük.
 
 ---
 
