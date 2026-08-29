@@ -65,7 +65,7 @@ Sonuç: Geliştirici kendi prompt'larının kaç token yediğini bilmiyor. Kota 
 
 Auto-detect: En son değişen log dosyasını otomatik seçer.
 
-Kurulum sonrası flag gereksiz. `--ide=vscode` ile zorlanabilir.
+Kurulum sonrası flag ile favori ide ile kontrol edilebilir. `--ide=vscode` 
 
 ---
 
@@ -96,7 +96,7 @@ Toplam disk kullanımı ~5 MB. JDK + 1 JAR.
 
 ## Şimdi canlı demo
 
-Ekranı terminal'e geçiyorum.
+
 
 *Gerçek log dosyası, gerçek çıktı.*
 
@@ -107,7 +107,6 @@ Ekranı terminal'e geçiyorum.
 ```bash
 # 1. JDK 17+ gerekli (21 LTS önerilir)
 java -version
-
 # 2. Repo'yu indir
 git clone https://github.com/dEMonaRE/copilot-lens.git
 cd copilot-lens
@@ -118,7 +117,6 @@ cd copilot-lens
 
 # 4. PATH'e ekle
 ./copilot-lens.sh install
-
 # 5. Çalıştır
 copilot-lens              # auto-detect IDE
 ```
@@ -128,7 +126,7 @@ copilot-lens              # auto-detect IDE
 ## Temel komutlar
 
 | Komut | Ne yapar |
-|---|---|
+|----|----|
 | `copilot-lens` | Tek seferde konsol raporu *(varsayılan)* |
 | `copilot-lens watch` | Canlı izleme (RTK stili) |
 | `copilot-lens gain --history` | Günlük kullanım trendi |
@@ -141,44 +139,20 @@ copilot-lens              # auto-detect IDE
 ---
 
 ## Senaryo: MCP tool avalanche
-
 Durum: Platform ekibi açık uçlu bir prompt attı.
-
 - "auth'u session cookieden JWT'ye çevirelim"
 - Copilot Edit Agent, Bitbucket / Jira / Confluence MCP'lerine bağlandı
 - 8 servis × çoklu tur = 47 request
 - Her turda önceki context taşınıyor (1K → 28K token)
-- copilot-lens aynı saat diliminde üst üste 8 kayıt gösterdi
-- panel/editAgent provider payı %4'ten %38'e fırladı
+- copilot-lens aynı saat diliminde üst üste 8 kayıt gösterdi, aynı editAgent provider payı %4'ten %38'e fırladı
 
-Çözüm: Agent mode yerine edit mode, tek sorgu yeterli oldu. Aynı iş 4 request'e düştü.
+Çözüm: Agent mode yerine edit mode, Aynı iş 4 request'e düştü.
 
 Aylık tasarruf ~240 USD.
 
 ---
 
-## How Savings Work
-
-**RTK** agent'ın okuduğu bash çıktısını **%90'a kadar** kısar.
-Bu, faturanızın %90 azalması **değil**.
-
-Bash çıktısı input token'ların sadece bir katmanı:
-
-```
-prompt + system + history + bash output  →  input tokens
-output tokens                              →  ayrı kalem
-```
-
-İndirim her katmanda seyreltir. Gerçek etkiyi ölçmek için:
-
-- **rtk-ai**: bash çıktısı kısaltma kütüphanesi, [github.com/rtk-ai/rtk](https://github.com/rtk-ai/rtk)
-- **copilot-lens**: gerçek input/output token etkisini ölçer
-
-İkisi birlikte: *kısaltma miktarı* + *toplam token etkisi* = uçtan uca görünürlük.
-
----
-
-## Kurumsal politika (IT sorularına yanıt)
+## Kurumsal politika
 
 | Endişe | copilot-lens |
 |---|---|
@@ -191,6 +165,24 @@ output tokens                              →  ayrı kalem
 | Air-gapped | Tamamen çalışır |
 
 Token ekonomisi 2026'da deney olmaktan çıktı, bütçe kalemi oldu.
+
+---
+## Agent Actionları Token Tasarruf Önerisi
+
+**RTK** agent'ın okuduğu bash çıktısını **%90'a kadar** kısar.
+Bu, faturanızın %90 azalması **değil**.
+
+Bash çıktısı input token'ların sadece bir katmanı:
+```
+prompt + system + history + bash output  →  input tokens
+output tokens                            →  ayrı kalem
+```
+İndirim her katmanda seyreltir. Gerçek etkiyi ölçmek için:
+- **rtk-ai**:  [github.com/rtk-ai/rtk](https://github.com/rtk-ai/rtk)
+
+- **copilot-lens**: gerçek input/output token etkisini ölçer
+
+İkisi birlikte: *kısaltma miktarı* + *toplam token etkisi* = uçtan uca görünürlük.
 
 ---
 
