@@ -1,0 +1,15 @@
+# Local exports
+*.html
+*.pdf
+*.pptx
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Build artefacts
+node_modules/
+dist/
+build/
