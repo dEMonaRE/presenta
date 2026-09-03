@@ -92,6 +92,45 @@ Toplam disk kullanımı ~5 MB. JDK + 1 JAR.
 
 ---
 
+## Yeni veri kaynağı: Chat session'lar
+
+Log dosyası sadece URL + model verir. Gerçek konuşma artık bizde.
+
+`state.vscdb` (SQLite) → `chat.ChatSessionStore.index`
+- prompt metni (Copilot Chat'e ne yazıldı)
+- assistant yanıtı + tool çağrıları + agent adı
+- session ID + model + timestamp
+
+Live (`.jsonl` patch replay) + completed (`.json`) parse.
+200 MB session dosyası → soft cap, base64 image strip.
+
+VSCode · Cursor · Windsurf aynı şema → tek kod yolu, 3 IDE.
+IntelliJ: XML/JSON, opaque schema — deferred.
+
+---
+
+## Akıllı analiz · 5 yeni komut
+
+**Effectiveness Score** — 5 × 20 = 100 üzerinden skor
+
+| Kategori | Puan | Ne ölçer |
+|---|---|---|
+| Prompt Quality | /20 | ortalama prompt uzunluğu, ask_clarification oranı |
+| Tool Utilization | /20 | farklı tool sayısı (≥7 = 20) |
+| Efficiency | /20 | tool success rate + ortalama tur |
+| MCP Utilization | /20 | yapılandırılmış MCP'lerin kullanımı |
+| Engagement | /20 | aktif gün + ortalama oturum süresi |
+
+`copilot-lens score` → 0-100 skor + ipuçları
+
+**Diğer yeni komutlar:**
+- `search "<query>"` — token-frekans araması, ±60-char highlight
+- `mcp` — yapılandırılmış MCP sunucuları + kullanım sayıları
+- `export sft` — OpenAI chat-format JSONL (fine-tune için)
+- `cost --period=daily` — provider-API maliyet tahmini
+
+---
+
 <!-- _class: lead -->
 
 ## Şimdi canlı demo
@@ -131,9 +170,13 @@ copilot-lens              # auto-detect IDE
 | `copilot-lens watch` | Canlı izleme (RTK stili) |
 | `copilot-lens gain --history` | Günlük kullanım trendi |
 | `copilot-lens discover` | En pahalı prompt kalıplarını bulur |
+| `copilot-lens score` | **Effectiveness skoru (0-100) + ipuçları** |
+| `copilot-lens search "<q>"` | **Chat session içinde token-frekans araması** |
+| `copilot-lens mcp` | **Yapılandırılmış MCP sunucuları + kullanım sayıları** |
+| `copilot-lens cost` | **Provider-API maliyet tahmini** |
+| `copilot-lens export json / sft` | JSON veya **OpenAI SFT formatı** dışa aktarır |
 | `copilot-lens snapshot` | Bugünün toplamını diske yazar |
 | `copilot-lens trend --period=weekly` | ASCII grafik (snapshot'lardan) |
-| `copilot-lens export json` | Ham veriyi JSON olarak dışa aktarır |
 | `copilot-lens report` | HTML report (dark mode) |
 
 ---
@@ -175,11 +218,9 @@ Bu, faturanızın %90 azalması **değil**.
 Bash çıktısı input token'ların sadece bir katmanı:
 ```
 prompt + system + history + bash output  →  input tokens
-output tokens                            →  ayrı kalem
 ```
 İndirim her katmanda seyreltir. Gerçek etkiyi ölçmek için:
 - **rtk-ai**:  [github.com/rtk-ai/rtk](https://github.com/rtk-ai/rtk)
-
 - **copilot-lens**: gerçek input/output token etkisini ölçer
 
 İkisi birlikte: *kısaltma miktarı* + *toplam token etkisi* = uçtan uca görünürlük.

@@ -26,6 +26,9 @@ npm install -g @marp-team/marp-cli
 
 1. Open the deck file in VS Code, for example [copilot-lens/copilot-lens-lt.md](./copilot-lens/copilot-lens-lt.md).
 2. Use the Marp preview button in the editor toolbar, or run `Marp: Open Preview` from the Command Palette.
+```
+  npx -y @marp-team/marp-cli copilot-lens-lt.md -o copilot-lens-lt.pdf
+```
 3. The preview renders the slide deck live while you edit.
 4. To present, open that preview in a browser and switch the browser to full-screen mode. Then move between slides with arrow keys, Page Up/Page Down, or Space.
 5. If you want a single shareable presentation file, use `Marp: Export Slide Deck (HTML)` or `Marp: Export Slide Deck (PDF)` and open the exported file in a browser.
